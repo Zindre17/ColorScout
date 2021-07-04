@@ -12,5 +12,9 @@
       "matches": ["<all_urls>"],
       "js": ["color-finder.js"]
     }
-  ]
+  ],
+  "icons": {
+    "48": "ColorScoutLogo48.png",
+    "96": "ColorScoutLogo96.png"
+  }
 }
