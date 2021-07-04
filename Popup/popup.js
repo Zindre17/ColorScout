@@ -1,5 +1,5 @@
 const GET = "getColors";
-const HOVER = "highlightColor";
+const HIGHLIGHT = "highlightColor";
 const SELECTED = "selected";
 
 const content = document.getElementById("content");
@@ -13,6 +13,10 @@ const spinner = document.getElementById("loader");
 const hover = document.getElementById("hover");
 
 const modeInput = document.getElementById("mode-input");
+var modeNodes = document.getElementsByClassName("mode-selector")[0];
+var modeChildren = modeNodes.getElementsByTagName("span");
+const copyModeText = modeChildren[0];
+const showModeText = modeChildren[modeChildren.length - 1];
 const clipboardInput = document.getElementById("clipboard-input");
 let isCopyMode = true;
 
@@ -69,8 +73,12 @@ function setMode(mode) {
 function toggleModeTransition() {
   if (isCopyMode) {
     colorBlocks.forEach((block) => block.classList.add("copy-mode"));
+    copyModeText.classList.add("active");
+    showModeText.classList.remove("active");
   } else {
     colorBlocks.forEach((block) => block.classList.remove("copy-mode"));
+    showModeText.classList.add("active");
+    copyModeText.classList.remove("active");
   }
 }
 
@@ -93,9 +101,7 @@ async function sendMessage(obj) {
   try {
     const tab = await getActiveTab();
     return await browser.tabs.sendMessage(tab.id, obj);
-  } catch (e) {
-    console.log(e);
-    console.table(e);
+  } catch (_) {
     showError();
     return null;
   }
@@ -103,11 +109,12 @@ async function sendMessage(obj) {
 
 function showError() {
   spinner.remove();
+  content.remove();
   document.getElementById("error").hidden = false;
 }
 
 function sendHighlightRequest(data) {
-  return sendMessage({ message: HOVER, ...data });
+  return sendMessage({ message: HIGHLIGHT, ...data });
 }
 
 let colorBlocks = [];

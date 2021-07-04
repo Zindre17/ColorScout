@@ -56,6 +56,7 @@ function getDefaultBackgroundColor() {
 
 function hasDirectText(node) {
   if (!node.innerText) return false;
+
   let directText = node.innerText;
   [...node.children].forEach((child) => {
     const childText = child.innerText;
@@ -64,7 +65,8 @@ function hasDirectText(node) {
     const index = directText.indexOf(childText);
     if (index !== -1) {
       directText =
-        directText.slice(0, index) + directText.slice(index + childText.length);
+        directText.substring(0, index) +
+        directText.substring(index + childText.length);
     }
   });
   return directText.trim().length !== 0;
@@ -111,32 +113,36 @@ browser.runtime.onMessage.addListener(({ message, ...rest }, _) => {
   if (message === SELECTED) {
     return Promise.resolve(currentSelection);
   }
-  if (message === HOVER) {
-    removeOutlines();
-
-    if (matchesCurrentSelection(rest)) {
-      resetSelection();
-      return true;
-    }
-
-    setSelection(rest);
-
-    let nodes;
-
-    if (rest.color) {
-      nodes = colors.get(rest.color);
-    } else if (rest.background) {
-      nodes = backgrounds.get(rest.background);
-    } else if (rest.fill) {
-      nodes = svgs.get(rest.fill);
-    }
-
-    addOutlines(nodes);
-    return Promise.resolve(true);
+  if (message === HIGHLIGHT) {
+    return Promise.resolve(highlightSelection(rest));
   }
 
   return Promise.resolve(false);
 });
+
+function highlightSelection(rest) {
+  removeOutlines();
+
+  if (matchesCurrentSelection(rest)) {
+    resetSelection();
+    return true;
+  }
+
+  setSelection(rest);
+
+  let nodes;
+
+  if (rest.color) {
+    nodes = colors.get(rest.color);
+  } else if (rest.background) {
+    nodes = backgrounds.get(rest.background);
+  } else if (rest.fill) {
+    nodes = svgs.get(rest.fill);
+  }
+
+  addOutlines(nodes);
+  return true;
+}
 
 function resetSelection() {
   currentSelection = { type: null, color: null };
