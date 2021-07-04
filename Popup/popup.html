@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="popup.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Poppins:wght@200;400&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1><span>Colors</span> on current page</h1>
+    <div id="loader" class="loader">Loading...</div>
+    <div id="error" hidden>Unable to load colors for current page... :(</div>
+    <input id="clipboard-input" type="text" />
+    <div id="content" hidden>
+      <label class="mode-selector">
+        <span>Copy color</span>
+        <input id="mode-input" type="checkbox" />
+        <span class="track"></span>
+        <span>Show on page</span>
+      </label>
+      <div id="textContainer">
+        <h2>Text:</h2>
+        <div id="textColors"></div>
+      </div>
+      <div id="backgroundsContainer">
+        <h2>Backgrounds:</h2>
+        <div id="backgrounds"></div>
+      </div>
+      <div id="svgsContainer">
+        <h2>SVGs:</h2>
+        <div id="svgs"></div>
+      </div>
+    </div>
+    <div id="hover" hidden />
+    <script src="popup.js" type="module"></script>
+  </body>
+</html>

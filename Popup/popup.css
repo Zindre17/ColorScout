@@ -1,0 +1,266 @@
+:root {
+  --bg-color: #eee;
+  --text-color: #444;
+}
+
+body {
+  width: 45ch;
+  padding: 0 1rem 1rem 1rem;
+  margin: 0;
+  overflow-x: hidden;
+  position: relative;
+  overflow-y: auto;
+  font-family: "Montserrat", sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+h1 {
+  font-weight: 200;
+  font-family: "Poppins", sans-serif;
+  font-size: 2.5rem;
+}
+
+h1 span {
+  font-weight: 400;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 1.25rem;
+}
+
+#textColors,
+#backgrounds,
+#svgs {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.color-container {
+  transition: transform 200ms;
+}
+
+.color-container.copy-mode {
+  transition: transform 200ms cubic-bezier(0.5, -1.4, 0.8, 1.2);
+}
+
+.color-container.copied {
+  transform: scale(0.75);
+}
+
+.selected {
+  transform: rotateZ(45deg);
+}
+
+.selected .color-block {
+  /* Adjust shadow to match rotation */
+  box-shadow: 5px 0px 10px #bebebe, -5px 0px 10px #ffffff;
+}
+
+.color-block {
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  margin: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+  transition: box-shadow 200ms;
+}
+
+.color-block::after {
+  content: "";
+  background-color: black;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 50%;
+  height: 50%;
+  z-index: -1;
+}
+
+.color-block::before {
+  content: "";
+  background-color: black;
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  bottom: 0px;
+  right: 0px;
+  z-index: -1;
+}
+
+#clipboard-input {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.mode-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  position: sticky;
+  margin-right: 1rem;
+  padding: 1rem;
+  top: 0;
+  z-index: 10;
+  background-color: var(--bg-color);
+  border-bottom: 1px solid var(--text-color);
+}
+
+.mode-selector span {
+  margin: 0 1rem;
+}
+
+#mode-input {
+  opacity: 0;
+  position: absolute;
+}
+
+.track {
+  width: 56px;
+  height: 32px;
+  background-color: var(--text-color);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: inset 4px 4px 4px #232323, inset -4px -4px 4px #5d5d5d;
+}
+
+.mode-selector input:checked + .track::before {
+  transform: translateX(24px);
+}
+
+.track::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  top: 4px;
+  left: 4px;
+  background-color: var(--bg-color);
+  position: absolute;
+  transition: transform 0.2s ease-out;
+  box-shadow: 2px 2px 2px #232323, -2px -2px 2px #5d5d5d;
+}
+
+#hover {
+  position: absolute;
+  background-color: var(--bg-color);
+  transform: translateX(-50%);
+  padding: 0.5rem;
+  transition: background-color 500ms;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+body > .copied {
+  position: absolute;
+  pointer-events: none;
+  margin: 0;
+  background-color: rgb(52, 168, 83);
+  padding: 0.5rem;
+  color: var(--bg-color);
+}
+
+body > .copied::after {
+  content: "";
+  background-color: inherit;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  position: absolute;
+  bottom: -5px;
+  left: calc(50% - 5px);
+}
+
+.loader {
+  color: var(--text-color);
+  font-size: 20px;
+  margin: 100px auto;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: load4 1.3s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+@-webkit-keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em,
+      0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em,
+      0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0,
+      0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em,
+      0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em,
+      0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em,
+      0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em,
+      0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em,
+      0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
+@keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em,
+      0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+  }
+  12.5% {
+    box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em,
+      0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  25% {
+    box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0,
+      0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+  }
+  37.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em,
+      0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  50% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em,
+      0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+  }
+  62.5% {
+    box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em,
+      0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+  }
+  75% {
+    box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em,
+      0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em,
+      0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+  }
+}
