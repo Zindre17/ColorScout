@@ -1,5 +1,5 @@
 const GET = "getColors";
-const HOVER = "highlightColor";
+const HIGHLIGHT = "highlightColor";
 const SELECTED = "selected";
 
 let colors = new Map();
