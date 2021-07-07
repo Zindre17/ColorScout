@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Color Scout",
-  "version": "1.0",
+  "version": "1.1",
   "browser_action": {
     "default_title": "Color Scout",
     "default_popup": "Popup/popup.html"
